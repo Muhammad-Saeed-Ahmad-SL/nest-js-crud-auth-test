@@ -6,6 +6,7 @@ import { User } from './schemas/user.schema';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { ConflictException, UnauthorizedException } from '@nestjs/common';
+import { Role } from './enums/role.enum';
 
 describe('AuthService', () => {
   let authService: AuthService;
@@ -48,6 +49,7 @@ describe('AuthService', () => {
       name: 'Saeed',
       email: 'email@test.com',
       password: '123467',
+      role: [Role.User],
     };
     it('should register the new user', async () => {
       jest.spyOn(bcrypt, 'hash').mockResolvedValue('hashedPassword');
