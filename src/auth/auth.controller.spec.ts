@@ -1,6 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
+import { Role } from './enums/role.enum';
 
 describe('AuthController', () => {
   let authService: AuthService;
@@ -37,6 +38,7 @@ describe('AuthController', () => {
         name: 'Test',
         email: 'test@test.com',
         password: '1234567',
+        role: [Role.User],
       };
 
       const result = await authController.signUp(signUpDto);

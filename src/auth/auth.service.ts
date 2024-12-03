@@ -16,12 +16,12 @@ import { LoginDto } from './dto/login.dto';
 export class AuthService {
   constructor(
     @InjectModel(User.name)
-    private userModel: Model<User>,
-    private jwtService: JwtService,
+    private readonly userModel: Model<User>,
+    private readonly jwtService: JwtService,
   ) {}
 
   async signUp(signUpDto: SignUpDto): Promise<{ token: string }> {
-    const { name, email, password } = signUpDto;
+    const { name, email, password, role } = signUpDto;
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -30,6 +30,7 @@ export class AuthService {
         name,
         email,
         password: hashedPassword,
+        role,
       });
       const token = this.jwtService.sign({ id: user._id });
 

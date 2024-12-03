@@ -5,7 +5,7 @@ import { LoginDto } from './dto/login.dto';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private readonly authService: AuthService) {}
 
   @Post('/signup')
   signUp(@Body() signUpDto: SignUpDto): Promise<{ token: string }> {
