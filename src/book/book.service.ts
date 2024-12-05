@@ -9,7 +9,7 @@ import * as mongoose from 'mongoose';
 
 import { Query } from 'express-serve-static-core';
 import { User } from '../auth/schemas/user.schema';
-import { uploadImages } from 'src/utils/aws';
+import { uploadImages } from '../utils/aws';
 
 @Injectable()
 export class BookService {

@@ -27,6 +27,7 @@ describe('Book & Auth Controller (e2e)', () => {
     name: 'test',
     email: 'test@test.com',
     password: '12345678',
+    role: ['user', 'admin'],
   };
 
   const newBook = {
@@ -77,6 +78,7 @@ describe('Book & Auth Controller (e2e)', () => {
     it('(GET) - Get all Books ', async () => {
       return request(app.getHttpServer())
         .get('/books')
+        .set('Authorization', 'Bearer ' + jwtToken)
         .expect(200)
         .then((res) => {
           expect(res.body.length).toBe(1);
