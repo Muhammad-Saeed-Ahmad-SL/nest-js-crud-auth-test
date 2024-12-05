@@ -9,11 +9,12 @@ import * as mongoose from 'mongoose';
 
 import { Query } from 'express-serve-static-core';
 import { User } from '../auth/schemas/user.schema';
+import { uploadImages } from 'src/utils/aws';
 
 @Injectable()
 export class BookService {
   constructor(
-    @InjectModel(Book.name) private bookModel: mongoose.Model<Book>,
+    @InjectModel(Book.name) private readonly bookModel: mongoose.Model<Book>,
   ) {}
 
   async findAll(query: Query): Promise<Book[]> {
@@ -64,5 +65,19 @@ export class BookService {
   async deleteById(id: string): Promise<{ deleted: boolean }> {
     await this.bookModel.findByIdAndDelete(id);
     return { deleted: true };
+  }
+
+  async uploadImages(id: string, files: Array<Express.Multer.File>) {
+    const book = await this.bookModel.findById(id);
+
+    if (!book) {
+      throw new NotFoundException('Book not found');
+    }
+    const images = await uploadImages(files);
+
+    book.images = images as object[];
+
+    await book.save();
+    return book;
   }
 }
